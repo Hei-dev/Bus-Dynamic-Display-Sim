@@ -1,4 +1,4 @@
-# Bus-Dynamic-Display-Sim
+# Bus Dynamic Display Sim
  Simulate the Dynamic Bus Stop Display for Hong Kong's franchised buses\
 ***Project Viewable at https://hei-dev.github.io/BusETA/ .***\
  Disclamer: This project does not have any association with the respective companies. Copyrights belongs to their respective owner.
@@ -14,3 +14,9 @@
  - Currently not supporting cross-company route
  - Scrolling text in KMB mode is not yet completed
  - The street name may be associated with district name
+
+## Source
+ All datas comes from data.gov.hk.
+ - All Route info: https://static.data.gov.hk/td/routes-fares-geojson/JSON_BUS.json
+ - KMB data source: data.etabus.gov.hk/v1/transport/kmb/
+ - CTB/NWFB data source: rt.data.gov.hk/v1/transport/citybus-nwfb/
