@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>Bus Display</title>
+        <link rel="stylesheet" href="index.css">
+    </head>
+    <body class="reset">
+        <h1 id="instr" style="text-align: center; background-color: lightgrey;">Select Your Route</h1>
+        <div id="routeSel">
+            <label for="#routeid">Route ID</label><input id="routeid">
+            <label for="#bound">Direction</label>
+            <select id="bound">
+                <option value="inbound">Inbound</option>
+                <option value="outbound">Outbound</option>
+            </select>
+            <label for="#Company">Company</label>
+            <select id="Company">
+                <option value="CTB">Citybus</option>
+                <option value="NWFB">New World First Bus</option>
+                <option value="KMB">Kowloon Motor Bus</option>
+            </select>
+            <button onclick="initBtn()">Search</button>
+        </div>
+        <div id="sellist">
+            <select name="Stop ETA" id="stopetamenu">
+
+            </select>
+            <button onclick="prepareForLoop()">Start!</button>
+        </div>
+        <div id="display" class="reset" style="height:fit-content; outline-color: black; outline-width: 25px; table-layout: fixed;">
+            <table style="border-collapse: collapse;">
+                <tr style="height:50%">
+                    <td><div style="z-index: 3; background-color: white;"><img  onclick="fullscreen()" id="stopimg1" src="Stop_KMB.png" class="img_top"></div></td>
+                    <td ><table class="txt_top"  style="table-layout:fixed; width: 77vw;">
+                        <tr><td><div id="tc1">WELCOME</div></td></tr>
+                        <tr><td><div id="en1">WELCOME ONBOARD</div></td></tr>
+                    </table></td>
+                    <td style="font-size: 5vw; text-align: center; z-index: -1; background-color: white; " id="minLeft">-<br>min</td>
+                    <td style="background-color: white; width:25vw"></td> <!--Temporary fix for the edges-->
+                    
+                </tr>
+                <tr style="height:25%">
+                    <td><div style="z-index: 3; background-color: white;"><img id="stopimg2" src="Stop_CTB.png" class="img_bottom"></div></td>
+                    <td><table class="txt_bottom">
+                        <tr><td id="tc2"></td></tr>
+                        <tr><td id="en2"></td></tr>
+                    </table></td>
+                    
+                </tr>
+                <tr style="height:25%">
+                    <td><div style="z-index: 3; background-color: white;"><img id="stopimg3" src="Stop_NWFB.png" class="img_bottom"></div></td>
+                    <td><table class="txt_bottom">
+                        <tr><td id="tc3"></td></tr>
+                        <tr><td id="en3"></td></tr>
+                    </table></td>
+                    
+                </tr>
+            </table>
+        </div>
+        <div id="logs">Logs<br></div>
+    </body>
+    <script src="main.js" defer></script>
+</html>
