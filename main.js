@@ -417,42 +417,23 @@ function setImgDisplay(secs, etamin, light){
     //console.log(eatmin)
     //console.log(new Date().getMinutes())
     if(etamin==new Date().getMinutes()){
-        if(com=="CTB"){
-            if(stopimg.getAttribute("src")=="Stop_CTB_arr.png"){
-                stopimg.src = "Stop_CTB_arr2.png"
-            }
-            else{
-                stopimg.src = "Stop_CTB_arr.png"
-            }
+        if(stopimg.getAttribute("src")=="Stop_"+com+"_arr.png"){
+            stopimg.src = "Stop_"+com+"_arr2.png"
         }
-        else if(com=="NWFB"){
-            if(stopimg.getAttribute("src")=="Stop_NWFB_arr.png"){
-                stopimg.src = "Stop_NWFB_arr2.png"
-            }
-            else{
-                stopimg.src = "Stop_NWFB_arr.png"
-            }
+        else{
+            stopimg.src = "Stop_"+com+"_arr.png"
         }
+        
     }
     else{
         //console.log("Not Same")
-        if(com=="CTB"){
-            //console.log(stopimg.src)
-            if(stopimg.getAttribute("src")=="Stop_CTB.png"){
-                stopimg.src = "Stop_CTB_light.png"
-            }
-            else{
-                stopimg.src = "Stop_CTB.png"
-            }
+        if(stopimg.getAttribute("src")=="Stop_"+com+".png"){
+            stopimg.src = "Stop_"+com+"_light.png"
         }
-        else if(com=="NWFB"){
-            if(stopimg.getAttribute("src")=="Stop_NWFB.png"){
-                stopimg.src = "Stop_NWFB_light.png"
-            }
-            else{
-                stopimg.src = "Stop_NWFB.png"
-            }
+        else{
+            stopimg.src = "Stop_"+com+".png"
         }
+        
     }
 }
 
