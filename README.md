@@ -11,7 +11,7 @@
 
 ## Notes
  - This web app only recieved limited testing.
- - Currently not supporting cross-company route
+ - Currently not supporting joint-operated route
  - Scrolling text in KMB mode is not yet completed
  - The street name may be associated with district name
 
