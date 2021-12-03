@@ -6,8 +6,10 @@
         <link rel="stylesheet" href="index.css">
     </head>
     <body class="reset">
+        <h3 id="debug"></h3>
         <h1 id="instr" style="text-align: center; background-color: lightgrey;">Select Your Route</h1>
         <div id="routeSel">
+            Note: Cross Harbour Route is not fully supported yet. Bugs are expected to occur.<br>
             <label for="#routeid">Route ID</label><input id="routeid">
             <label for="#bound">Direction</label>
             <select id="bound">
@@ -16,10 +18,19 @@
             </select>
             <label for="#Company">Company</label>
             <select id="Company">
-                <option value="CTB">Citybus</option>
-                <option value="NWFB">New World First Bus</option>
-                <option value="KMB">Kowloon Motor Bus</option>
+                <optgroup label="Normal">
+                    <option value="CTB">Citybus (CTB)</option>
+                    <option value="NWFB">New World First Bus (NWFB)</option>
+                    <option value="KMB">Kowloon Motor Bus (KMB)</option>
+                </optgroup>
+                <optgroup label="Cross Harbour (Experimental)">
+                    <option value="CTB">CTB and KMB </option>
+                    <option value="NWFB">NWFB and KMB</option>
+                </optgroup>
+                
             </select>
+            <label for="#rev">Reversed Bound? (For Cross Harbour)</label>
+            <input type="checkbox" id="rev">
             <button onclick="initBtn()">Search</button>
         </div>
         <div id="sellist">
@@ -36,7 +47,7 @@
                         <tr><td><div id="tc1">WELCOME</div></td></tr>
                         <tr><td><div id="en1">WELCOME ONBOARD</div></td></tr>
                     </table></td>
-                    <td style="font-size: 5vw; text-align: center; z-index: -1; background-color: white; " id="minLeft">-<br>min</td>
+                    <td style="font-size: 5vw; text-align: center; z-index: -1; background-color: white; font-family: Arial, Helvetica, sans-serif;" class="" id="minLeft">-<br>min</td>
                     <td style="background-color: white; width:25vw"></td> <!--Temporary fix for the edges-->
                     
                 </tr>

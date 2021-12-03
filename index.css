@@ -67,7 +67,7 @@
 
 @keyframes txtScroll {
     from { transform: translateX(100%); }
-    to { transform: translateX(-110%); }
+    to { transform: translateX(-220%); }  /*Needs to be changed to vars()*/
 }
 
 #tc1::-webkit-scrollbar {
