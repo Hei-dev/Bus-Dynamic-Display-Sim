@@ -10,7 +10,7 @@
  - To enter fullscreen, click on the first stop image.
 
 ## Experimental
-  Features in this list is experimental, and might contains bugs.
+  Features in this list are experimental, and might contain bugs.
  - Joint-operated routes
 
 ## Notes
