@@ -9,18 +9,18 @@
         <h3 id="debug"></h3>
         <h1 id="instr" style="text-align: center; background-color: lightgrey;">Select Your Route</h1>
         <div id="routeSel">
-            Note: Cross Harbour Route is not fully supported yet. Bugs are expected to occur.<br>
-            <label for="#routeid">Route ID</label><input id="routeid">
+            Note: Cross Harbour Route is not fully supported yet. Bugs are expected to occur.<br><br>
+            <label for="#routeid" class="menulabel">Route ID</label><br><input id="routeid">
             <button onclick="checkRoute(document.getElementById('routeid').value)">Check route</button>
             <br>Note: Special departures and routes are not tested.<br><br>
-            <label for="#bound">Direction</label>
+            <label for="#bound" class="menulabel">Direction</label><br>
             <select id="bound">
                 <option value="inbound">Inbound</option>
                 <option value="outbound">Outbound</option>
             </select>
             <br>Tip: Choose Outbound for KMB circular routes
             <br>Note: CTB/NWFB Circular route not completed<br><br>
-            <label for="#Company">Company</label>
+            <label for="#Company" class="menulabel">Company</label><br>
             <select id="Company">
                 <optgroup label="Normal">
                     <option value="CTB">Citybus (CTB)</option>
@@ -34,7 +34,8 @@
                 </optgroup>
             </select>
             <br>If no suitable route is found for the respective company, empty list will be displayed<br><br>
-            <label for="#rev">Reversed Bound? (For Cross Harbour)</label>
+            <label class="menulabel">Others</label><br>
+            <label for="#rev" >Reversed Bound? (For Cross Harbour)</label>
             <input type="checkbox" id="rev">
             <br>NOT RECOMMENDED. Use if the cross harbour failed to display correctly<br><br>
             <button onclick="initBtn()">Search</button>
