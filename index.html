@@ -11,26 +11,32 @@
         <div id="routeSel">
             Note: Cross Harbour Route is not fully supported yet. Bugs are expected to occur.<br>
             <label for="#routeid">Route ID</label><input id="routeid">
+            <button onclick="checkRoute(document.getElementById('routeid').value)">Check route</button>
+            <br>Note: Special departures and routes are not tested.<br><br>
             <label for="#bound">Direction</label>
             <select id="bound">
                 <option value="inbound">Inbound</option>
                 <option value="outbound">Outbound</option>
             </select>
+            <br>Tip: Choose Outbound for KMB circular routes
+            <br>Note: CTB/NWFB Circular route not completed<br><br>
             <label for="#Company">Company</label>
             <select id="Company">
                 <optgroup label="Normal">
                     <option value="CTB">Citybus (CTB)</option>
                     <option value="NWFB">New World First Bus (NWFB)</option>
                     <option value="KMB">Kowloon Motor Bus (KMB)</option>
+                    <option value="KMB">Long Win Bus (LWB)</option>
                 </optgroup>
                 <optgroup label="Cross Harbour (Experimental)">
-                    <option value="CTB">CTB and KMB </option>
+                    <option value="CTB">CTB and KMB/LWB </option>
                     <option value="NWFB">NWFB and KMB</option>
                 </optgroup>
-                
             </select>
+            <br>If no suitable route is found for the respective company, empty list will be displayed<br><br>
             <label for="#rev">Reversed Bound? (For Cross Harbour)</label>
             <input type="checkbox" id="rev">
+            <br>NOT RECOMMENDED. Use if the cross harbour failed to display correctly<br><br>
             <button onclick="initBtn()">Search</button>
         </div>
         <div id="sellist">
@@ -39,7 +45,7 @@
             </select>
             <button onclick="prepareForLoop()">Start!</button>
         </div>
-        <div id="display" class="reset" style="height:fit-content; outline-color: black; outline-width: 25px; table-layout: fixed;">
+        <div id="display" class="reset" style="height:fit-content; outline-color: black; outline-width: 25px; table-layout: fixed; display:none">
             <table style="border-collapse: collapse;">
                 <tr style="height:50%">
                     <td><div style="z-index: 3; background-color: white;"><img  onclick="fullscreen()" id="stopimg1" src="Stop_KMB.png" class="img_top"></div></td>
@@ -72,4 +78,6 @@
         <div id="logs">Logs<br></div>
     </body>
     <script src="main.js" defer></script>
+    <script src="JSON_BUS.js"></script>
+    <script src="routeCheck.js"></script>
 </html>

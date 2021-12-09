@@ -59,6 +59,7 @@ var distNameEn = [
 
 function initBtn(){
     document.getElementById("routeSel").style.display = "none"
+    document.getElementById("display").style.display = "block"
     route = document.getElementById("routeid").value
     bound = document.getElementById("bound").value
     com = document.getElementById("Company").value
@@ -484,19 +485,38 @@ async function setTxtDisplay(){
             document.getElementById("tc1").style.animationName = ""
         }
 
-        let totUpper = document.getElementById("en1").innerHTML.length - document.getElementById("en1").innerHTML.replace(/[A-Z]/g, '').length;
-        let totLower = document.getElementById("en1").innerHTML.length - totUpper
-        let tot = ((totLower/2)+totUpper)
-        console.log(tot)
-        if(tot>=13){
-            document.getElementById("en1").style.animationName = "txtScroll"
-            document.getElementById("en1").style.animationDuration = document.getElementById("en1").innerHTML.length/2.5 + "s"
-            document.getElementById("en1").style.animationTimingFunction = "linear"
-            document.getElementById("en1").style.animationIterationCount = "infinite"
+        if(com=="KMB"){
+            let totUpper = document.getElementById("en1").innerHTML.length - document.getElementById("en1").innerHTML.replace(/[A-Z]/g, '').length;
+            let totLower = document.getElementById("en1").innerHTML.length - totUpper
+            let tot = ((totLower/2)+totUpper)
+            console.log(tot)
+            if(tot>=13){
+                document.getElementById("en1").style.animationName = "txtScroll"
+                document.getElementById("en1").style.animationDuration = document.getElementById("en1").innerHTML.length/2.5 + "s"
+                document.getElementById("en1").style.animationTimingFunction = "linear"
+                document.getElementById("en1").style.animationIterationCount = "infinite"
+            }
+            else{
+                document.getElementById("en1").style.animationName = ""
+            }
         }
         else{
-            document.getElementById("en1").style.animationName = ""
+            let totSpace = document.getElementById("en1").innerHTML.length - document.getElementById("en1").innerHTML.replace(/ /g, '').length;
+            let totLetter = document.getElementById("en1").innerHTML.length - totUpper
+            let tot = ((totSpace/2)+totLetter)
+            console.log(tot)
+            if(tot>=13){
+                document.getElementById("en1").style.animationName = "txtScroll"
+                document.getElementById("en1").style.animationDuration = document.getElementById("en1").innerHTML.length/2.5 + "s"
+                document.getElementById("en1").style.animationTimingFunction = "linear"
+                document.getElementById("en1").style.animationIterationCount = "infinite"
+            }
+            else{
+                document.getElementById("en1").style.animationName = ""
+            }
         }
+
+        
         //console.log(txtDisplayEn[0])
     }
     
