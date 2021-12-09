@@ -25,7 +25,7 @@ print("Loading data...")
 # 'rstop'
 inp = ""
 while inp=="":
-    inp = input("Selection:\n1.Extract all routes ID\n2.Check for tunnels\n")
+    inp = input("Selection:\n1.Extract all routes ID\n2.Check for Interchange\n")
 #print(data[0]["rstop"])
 if inp == "1":
     for idat in data:
@@ -40,8 +40,8 @@ if inp == "2":
     for idat in data:
         #print(idat["rstop"])
         for jdat in idat["rstop"][0]["features"]:
-            print(jdat["properties"]["stopNameE"])
-            if stopname in jdat["properties"]["stopNameE"]:
+            #print(jdat["properties"]["stopNameE"])
+            if stopname.lower() in jdat["properties"]["stopNameE"].lower():
                 routeIdList.append(idat["routeNameC"])
     routeIdList.sort()
     #print(routeIdList)
