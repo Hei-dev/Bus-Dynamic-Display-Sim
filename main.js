@@ -475,23 +475,28 @@ async function setTxtDisplay(){
             console.log(txtDisplayEn[0])
         }
         */
-        if(document.getElementById("tc1").innerHTML.length>=8){
+        let chilen = document.getElementById("tc1").innerHTML.length
+        if(chilen>=8){
+            document.querySelector(':root').style.setProperty("--len",String((chilen*12*-1)) + "vw")
+            //console.log(String((chilen*12*-1)) + "vw")
+            console.log(getComputedStyle(document.querySelector(':root')).getPropertyValue('--len'))
             document.getElementById("tc1").style.animationName = "txtScroll"
-            document.getElementById("tc1").style.animationDuration = document.getElementById("tc1").innerHTML.length/1.25 + "s"
+            document.getElementById("tc1").style.animationDuration = document.getElementById("tc1").innerHTML.length/0.75 + "s"
             document.getElementById("tc1").style.animationTimingFunction = "linear"
             document.getElementById("tc1").style.animationIterationCount = "infinite"
         }
         else{
             document.getElementById("tc1").style.animationName = ""
         }
-
+        
         if(com=="KMB"){
             let totUpper = document.getElementById("en1").innerHTML.length - document.getElementById("en1").innerHTML.replace(/[A-Z]/g, '').length;
             let totLower = document.getElementById("en1").innerHTML.length - totUpper
             let tot = ((totLower/2)+totUpper)
             console.log(tot)
             if(tot>=13){
-                document.getElementById("en1").style.animationName = "txtScroll"
+                document.querySelector(':root').style.setProperty("--lenen",String(tot*12*-1) + "vw")
+                document.getElementById("en1").style.animationName = "txtScrollEn"
                 document.getElementById("en1").style.animationDuration = document.getElementById("en1").innerHTML.length/2.5 + "s"
                 document.getElementById("en1").style.animationTimingFunction = "linear"
                 document.getElementById("en1").style.animationIterationCount = "infinite"
@@ -502,11 +507,12 @@ async function setTxtDisplay(){
         }
         else{
             let totSpace = document.getElementById("en1").innerHTML.length - document.getElementById("en1").innerHTML.replace(/ /g, '').length;
-            let totLetter = document.getElementById("en1").innerHTML.length - totUpper
+            let totLetter = document.getElementById("en1").innerHTML.length - totSpace
             let tot = ((totSpace/2)+totLetter)
-            console.log(tot)
+            console.log("Text total: " + tot)
             if(tot>=13){
-                document.getElementById("en1").style.animationName = "txtScroll"
+                document.querySelector(':root').style.setProperty("--lenen",String(tot*8*-1) + "vw")
+                document.getElementById("en1").style.animationName = "txtScrollEn"
                 document.getElementById("en1").style.animationDuration = document.getElementById("en1").innerHTML.length/2.5 + "s"
                 document.getElementById("en1").style.animationTimingFunction = "linear"
                 document.getElementById("en1").style.animationIterationCount = "infinite"
@@ -515,6 +521,7 @@ async function setTxtDisplay(){
                 document.getElementById("en1").style.animationName = ""
             }
         }
+        /**/
 
         
         //console.log(txtDisplayEn[0])
