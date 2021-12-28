@@ -50,6 +50,14 @@ var distNameEn = [
     "KWUN TONG",
     "KOWLOON BAY"
 ]
+var strName = "街道路里坊".split("")
+var strNameEn = [
+    "Street",
+    "Road",
+    "Avenue",
+    "Lane",
+    "Square"
+]
 
 
 //console.log(checkCrossHarbor("100"))
@@ -126,15 +134,27 @@ function checkCrossHarbor(route){
     routeStopInfo[stop] = [stringProcess(nametc,false),stringProcess(nameen,true)]
     routeStopIds.push(stop)
 }
+/**
+ * Process the Stop Name to make it sounds more like a real stop name
+ * @param {String} strname 
+ * @param {Boolean} isEn 
+ * @returns The processed string
+ */
 function stringProcess(strname,isEn){
     let strfin = strname;
     if(strname.indexOf(",")!=-1){ //CTB/NWFB, check street name
-        strfin = strfin.substr(0,strname.indexOf(","))
+        strfin = strfin.substring(0,strname.indexOf(","))
     }
     
     if((strname[strname.length-1]==")")&&(strname[strname.length-2] in numbersArr)){ //KMB, check platform code
-        strfin = strfin.substr(0,strname.indexOf("("))
+        strfin = strfin.substring(0,strname.indexOf("("))
         console.log(strfin)
+    }
+
+    for(i in distName){
+        for(j in strName){
+
+        }
     }
     return strfin
 }
@@ -379,7 +399,14 @@ function stopSelect(){
     //setTxtDisplay()
     //switchInfo(secs)
     setImgDisplay(timeleft,(new Date(curstop_json.ETA).getMinutes()))
-    setTimeout(stopSelect,1000)
+    if(routeStopIds.indexOf(curstop_json.stop)+1!=routeStopIds.length){
+        setTimeout(stopSelect,1000)
+    }
+    else{
+        document.getElementById("tc3").innerHTML = "MESSAGE TO BE WIRTTEN"
+        document.getElementById("en3").innerHTML = "Bus Terminal Reached."
+    }
+    
 
 
 }
@@ -437,13 +464,33 @@ async function setTxtDisplay(){
 
         document.getElementById("tc1").innerHTML = routeStopInfo[curstop_json.stop][0]
         document.getElementById("en1").innerHTML = routeStopInfo[curstop_json.stop][1]
-        if(routeStopInfo[routeStopIds[routeStopIds.indexOf(curstop_json.stop)+1]][0]!=undefined){
+        if(routeStopIds.indexOf(curstop_json.stop)+1==routeStopIds.length){
+            document.getElementById("stopimg1").src = "img/Stop_" + com + "_ter.png"
+            document.getElementById("stopimg2").src = "//:0"
+            document.getElementById("stopimg3").src = "//:0"
+            document.getElementById("tc2").innerHTML = ""
+            document.getElementById("en2").innerHTML = ""
+            document.getElementById("tc3").innerHTML = ""
+            document.getElementById("en3").innerHTML = ""
+            console.log("bfgsgufy")
+            
+        }
+        else if(routeStopIds.indexOf(curstop_json.stop)+2==routeStopIds.length){
+            document.getElementById("stopimg2").src = "img/Stop_" + com + "_ter.png"
+            document.getElementById("stopimg3").src = "//:0"
             document.getElementById("tc2").innerHTML = routeStopInfo[routeStopIds[routeStopIds.indexOf(curstop_json.stop)+1]][0]
             document.getElementById("en2").innerHTML = routeStopInfo[routeStopIds[routeStopIds.indexOf(curstop_json.stop)+1]][1]
+            document.getElementById("tc3").innerHTML = ""
+            document.getElementById("en3").innerHTML = ""
         }
-        if(routeStopInfo[routeStopIds[routeStopIds.indexOf(curstop_json.stop)+2]][0]!=undefined){
+        else{
+            document.getElementById("tc2").innerHTML = routeStopInfo[routeStopIds[routeStopIds.indexOf(curstop_json.stop)+1]][0]
+            document.getElementById("en2").innerHTML = routeStopInfo[routeStopIds[routeStopIds.indexOf(curstop_json.stop)+1]][1]
             document.getElementById("tc3").innerHTML = routeStopInfo[routeStopIds[routeStopIds.indexOf(curstop_json.stop)+2]][0]
             document.getElementById("en3").innerHTML = routeStopInfo[routeStopIds[routeStopIds.indexOf(curstop_json.stop)+2]][1]
+            if(routeStopIds.indexOf(curstop_json.stop)+3==routeStopIds.length){
+                document.getElementById("stopimg3").src = "img/Stop_" + com + "_ter.png"
+            }
         }
 
         /*
@@ -540,6 +587,15 @@ function setImgDisplay(secs, etamin, light){
         else{
             stopimg.src = "img/Stop_"+com+"_arr.png"
         }
+        
+    }
+    else if(routeStopIds.indexOf(curstop_json.stop)+1==routeStopIds.length){
+        /*if(stopimg.getAttribute("src")=="img/Stop_"+com+"_arr.png"){
+            stopimg.src = "img/Stop_"+com+"_arr2.png"
+        }
+        else{
+            stopimg.src = "img/Stop_"+com+"_arr.png"
+        }*/
         
     }
     else{
