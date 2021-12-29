@@ -160,13 +160,14 @@ function stringProcess(strname,isEn){
         for(i in distNameEn){
             for(j in strNameEn){
                 if(checkDistrictStreet(strfin,distNameEn[i],strNameEn[j])){
-                    if(strname.indexOf(strNameEn[j])>strfin.indexOf(distNameEn[i])){
+                    if(strfin.indexOf(strNameEn[j])>strfin.indexOf(distNameEn[i])){
                         strfin = strfin.substring(strfin.indexOf(distNameEn[i])+distNameEn[i].length+1,strfin.length)
                     }
                     else{
                         strfin = strfin.substring(0,strfin.indexOf(distNameEn[i]-1))
                     }
                 }
+                console.log(strfin)
             }
         }
     }
@@ -223,7 +224,7 @@ async function getStopEta(com,stop,route,qbound,stopKMB){
                 "seq" : orgEtaData[j].seq,
                 "ETA" : new Date(orgEtaData[j].eta)
             })
-            console.log(routeStopEtaInfo)
+            console.log()
         }
         else{
             console.log("Wrong Bound")
@@ -437,7 +438,7 @@ function stopSelect(){
         document.getElementById("tc2").innerHTML = "已到達巴士總站"
         document.getElementById("en2").innerHTML = "Bus Terminal Reached"
         document.getElementById("tc3").innerHTML = "多謝乘搭"
-        document.getElementById("en3").innerHTML = "THank you for travelling"
+        document.getElementById("en3").innerHTML = "Thank you for travelling"
     }
     
 
@@ -556,7 +557,7 @@ async function setTxtDisplay(){
         }
         */
         let chilen = document.getElementById("tc1").innerHTML.length
-        if(chilen>=8){
+        if(chilen>=6){
             document.querySelector(':root').style.setProperty("--len",String((chilen*12*-1)) + "vw")
             //console.log(String((chilen*12*-1)) + "vw")
             console.log(getComputedStyle(document.querySelector(':root')).getPropertyValue('--len'))
