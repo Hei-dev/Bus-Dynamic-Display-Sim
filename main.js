@@ -36,7 +36,8 @@ var distName = ["尖沙咀",
     "紅磡",
     "土瓜灣",
     "觀塘",
-    "九龍灣"
+    "九龍灣",
+    "新蒲崗"
 ]
 var distNameEn = [
     "TSIM SHA TSUI",
@@ -48,7 +49,8 @@ var distNameEn = [
     "HUNG HOM",
     "TO KWA WAN",
     "KWUN TONG",
-    "KOWLOON BAY"
+    "KOWLOON BAY",
+    "SAN PO KONG"
 ]
 var strName = "街道路里坊".split("")
 var strNameEn = [
@@ -57,6 +59,10 @@ var strNameEn = [
     "Avenue",
     "Lane",
     "Square"
+]
+var strExclude = [
+    "紅磡南道",
+    "HUNG HOM SOUTH ROAD"
 ]
 
 
@@ -150,13 +156,38 @@ function stringProcess(strname,isEn){
         strfin = strfin.substring(0,strname.indexOf("("))
         console.log(strfin)
     }
-
-    for(i in distName){
-        for(j in strName){
-
+    if(isEn && com=="KMB"){
+        for(i in distNameEn){
+            for(j in strNameEn){
+                if(checkDistrictStreet(strfin,distNameEn[i],strNameEn[j])){
+                    if(strname.indexOf(strNameEn[j])>strfin.indexOf(distNameEn[i])){
+                        strfin = strfin.substring(strfin.indexOf(distNameEn[i])+distNameEn[i].length+1,strfin.length)
+                    }
+                    else{
+                        strfin = strfin.substring(0,strfin.indexOf(distNameEn[i]-1))
+                    }
+                }
+            }
         }
     }
+    else{
+        for(i in distName){
+            for(j in strName){
+                if(checkDistrictStreet(strfin,distName[i],strName[j])){
+                    strfin = strfin.substring(strfin.indexOf(distName[i])+distName[i].length,strfin.length)
+                    console.log(strname + ":" + strname.indexOf(distName[i])+distName[i].length + strfin)
+                }
+            }
+        }
+    }
+        
     return strfin
+}
+function checkDistrictStreet(stopname,dist,street){
+    return (stopname.indexOf(dist)!= -1)
+        && (stopname.indexOf(street) != -1)
+        && (stopname.indexOf(dist)+dist.length!=stopname.indexOf(street)
+        && (strExclude.indexOf(stopname)==-1))
 }
 
 /**
@@ -403,8 +434,10 @@ function stopSelect(){
         setTimeout(stopSelect,1000)
     }
     else{
-        document.getElementById("tc3").innerHTML = "MESSAGE TO BE WIRTTEN"
-        document.getElementById("en3").innerHTML = "Bus Terminal Reached."
+        document.getElementById("tc2").innerHTML = "已到達巴士總站"
+        document.getElementById("en2").innerHTML = "Bus Terminal Reached"
+        document.getElementById("tc3").innerHTML = "多謝乘搭"
+        document.getElementById("en3").innerHTML = "THank you for travelling"
     }
     
 
@@ -466,8 +499,8 @@ async function setTxtDisplay(){
         document.getElementById("en1").innerHTML = routeStopInfo[curstop_json.stop][1]
         if(routeStopIds.indexOf(curstop_json.stop)+1==routeStopIds.length){
             document.getElementById("stopimg1").src = "img/Stop_" + com + "_ter.png"
-            document.getElementById("stopimg2").src = "//:0"
-            document.getElementById("stopimg3").src = "//:0"
+            document.getElementById("stopimg2").style.display = "none"
+            document.getElementById("stopimg3").style.display = "none"
             document.getElementById("tc2").innerHTML = ""
             document.getElementById("en2").innerHTML = ""
             document.getElementById("tc3").innerHTML = ""
@@ -477,11 +510,11 @@ async function setTxtDisplay(){
         }
         else if(routeStopIds.indexOf(curstop_json.stop)+2==routeStopIds.length){
             document.getElementById("stopimg2").src = "img/Stop_" + com + "_ter.png"
-            document.getElementById("stopimg3").src = "//:0"
+            document.getElementById("stopimg3").style.display = "none"
             document.getElementById("tc2").innerHTML = routeStopInfo[routeStopIds[routeStopIds.indexOf(curstop_json.stop)+1]][0]
             document.getElementById("en2").innerHTML = routeStopInfo[routeStopIds[routeStopIds.indexOf(curstop_json.stop)+1]][1]
-            document.getElementById("tc3").innerHTML = ""
-            document.getElementById("en3").innerHTML = ""
+            document.getElementById("tc3").innerHTML = " "
+            document.getElementById("en3").innerHTML = " "
         }
         else{
             document.getElementById("tc2").innerHTML = routeStopInfo[routeStopIds[routeStopIds.indexOf(curstop_json.stop)+1]][0]
