@@ -20,6 +20,7 @@ const crossHarbourNo = ["1","3","6","9","N"]
 var isCrossHarbourRoute = false
 var routeStopInfoKMB = []
 var routeStopIdKMB = []
+var routeStopEtaInfoKMB;
 var curseqKMB = ""
 
 var numbersArr = [];
@@ -82,6 +83,9 @@ function initBtn(){
     document.getElementById("stopimg2").src = "img/Stop_" + com + ".png"
     document.getElementById("stopimg3").src = "img/Stop_" + com + ".png"
     document.getElementById("debug").innerHTML = route + "," + bound
+
+    isCrossHarbourRoute = document.getElementById("joint").checked
+
     getRouteInfo(com,route,bound)
 }
 
@@ -134,9 +138,6 @@ function checkCrossHarbor(route){
     let orgStopData = orgStopList.data;
     let nametc = orgStopData.name_tc
     let nameen = orgStopData.name_en
-    if(isCrossHarbouring){
-        return [stringProcess(nametc,false),stringProcess(nameen,true)]
-    }
     routeStopInfo[stop] = [stringProcess(nametc,false),stringProcess(nameen,true)]
     routeStopIds.push(stop)
 }
@@ -200,7 +201,7 @@ function checkDistrictStreet(stopname,dist,street){
  * @param {String} stopKMB Optional: the stop ID in KMB format
  */
 async function getStopEta(com,stop,route,qbound,stopKMB){
-    console.log(qbound)
+    //console.log((baseURL + "/eta/" + com + "/" + stop + "/" + route))
     if(com=="KMB"){
         var fetchRes = await fetch(KMBbaseURL + "/eta/" + stop + "/" + route + "/1")
         console.log(KMBbaseURL + "/eta/" + stop + "/" + route + "/1")
@@ -210,13 +211,15 @@ async function getStopEta(com,stop,route,qbound,stopKMB){
     }
     var orgEta = JSON.parse(await fetchRes.text())
     let orgEtaData = orgEta.data
-    //console.log(orgEta)
+    console.log(orgEtaData)
     if(orgEta.data.length==0) {
         console.log("No matching")
         return
     };
+    var dataCount = 0
     for(var j in orgEta.data){
         if(isBoundMatching(orgEtaData[j].dir,qbound,false)){
+            dataCount++
             routeStopEtaInfo.push({
                 "co" : com,
                 "stop" : stop,
@@ -224,39 +227,38 @@ async function getStopEta(com,stop,route,qbound,stopKMB){
                 "seq" : orgEtaData[j].seq,
                 "ETA" : new Date(orgEtaData[j].eta)
             })
-            console.log()
         }
         else{
             console.log("Wrong Bound")
         }
         //console.log(Date.parse(orgEtaData[j].eta))
     }
+    if(dataCount<3){
+        for(var _=(dataCount+1);_<3;_++){
+            routeStopEtaInfo.push({
+                "co" : com,
+                "stop" : stop,
+                "eta_seq" : _+1,
+                "seq" : orgEtaData[j].seq,
+                "ETA" : new Date(NaN)
+            })
+        }
+    }
     
 }
 
+// INITALIZE / GET DATA
 async function getRouteInfo(com,route,bound){
-    if(checkCrossHarbor(route)){
-        isCrossHarbourRoute = true
-        if(document.getElementById("rev").checked){
-            bound = invertBound(bound)
-        }
-        var fetchResKMB = await fetch(KMBbaseURL + "/route-stop/" + route + "/" + bound + "/" + 1)
-        orgRouteStopIdKMB = JSON.parse(await fetchResKMB.text())
-        console.log(orgRouteStopIdKMB)
-        for(var i in orgRouteStopIdKMB.data){
-            var stopsInfoKMB = orgRouteStopIdKMB.data[i]
-            instr.innerHTML = "Loading extras... (" + i + "/" + orgRouteStopIdKMB.data.length + ")"
-            routeStopIdKMB.push(stopsInfoKMB.stop)
-            routeStopInfoKMB[stopsInfoKMB.stop] = await getStop(stopsInfoKMB.stop,isCrossHarbourRoute)
-        }
-        console.log(routeStopIdKMB)
-    }
-    
+    //Get a list of stop ids
     if(com=="KMB"){
         var fetchRes = await fetch(KMBbaseURL + "/route-stop/" + route + "/" + bound + "/" + 1)
     }
     else{
         var fetchRes = await fetch(baseURL + "/route-stop/" + com + "/" + route + "/" + bound)
+        if(isCrossHarbourRoute){
+            var fetchResKMB = await fetch(KMBbaseURL + "/route-stop/" + route + "/" + bound + "/" + 1)
+            orgRouteStopIdKMB = JSON.parse(await fetchResKMB.text())
+        }
     }
     
     orgRouteStopId = JSON.parse(await fetchRes.text())
@@ -273,17 +275,48 @@ async function getRouteInfo(com,route,bound){
     for(var i in routeStopEtaInfo){
         routeStopEtaInfo[i].name_tc = routeStopInfo[routeStopEtaInfo[i].stop][0]
         routeStopEtaInfo[i].name_en = routeStopInfo[routeStopEtaInfo[i].stop][1]
-        
     }
     
+    //Joint-operated route get route data
+    //Moving routeStopInfo to a temp array for the KMB data
+    if(isCrossHarbourRoute){
+        var t_routeStopEtaInfo = routeStopEtaInfo
+        var t_routeStopIds = routeStopIds
+        routeStopIds = []
+        routeStopEtaInfo = []
+        routeStopInfo = []
+        console.log(t_routeStopEtaInfo)
+
+        for(var i in orgRouteStopIdKMB.data){
+            var stopsInfo = orgRouteStopIdKMB.data[i]
+            logs.innerHTML += "Loading KMB Cycle " + stopsInfo.stop + ": " + i + "/" + orgRouteStopIdKMB.data.length + "<br>"
+            instr.innerHTML = "Please wait... (" + i + "/" + orgRouteStopIdKMB.data.length + ")"
+            await getStopEta("KMB",stopsInfo.stop,route,invertBound(bound))
+            //console.log(routeStopEtaInfo)
+            await getStop(stopsInfo.stop,true)
+            
+        }
+        for(var i in routeStopEtaInfo){
+            console.log(routeStopInfo) //TODO Check routeStopInfo so that this will not return undefined
+            routeStopEtaInfo[i].name_tc = routeStopInfo[routeStopEtaInfo[i].stop][0]
+            routeStopEtaInfo[i].name_en = routeStopInfo[routeStopEtaInfo[i].stop][1]
+        }
+
+        console.log(routeStopEtaInfo)
+
+        routeStopEtaInfoKMB = routeStopEtaInfo
+        routeStopEtaInfo = t_routeStopEtaInfo
+        routeStopIdKMB = routeStopIds
+        routeStopIds = t_routeStopIds
+    }
+
     console.log(logs)
+    //String for the dropdown menu
     for(var i in routeStopEtaInfo){
-        console.log(routeStopEtaInfo[i].ETA.getMinutes())
-        if(isNaN(routeStopEtaInfo[i].ETA.getMinutes())){
-            instr.innerHTML = "Loading extras..."
-            curseqKMB = routeStopEtaInfo[i].seq - 1
-            routeStopEtaInfo[i] = await getStopEtaJSON("KMB",routeStopIdKMB[routeStopEtaInfo[i].seq - 1],route,bound,true)
-            //console.log(routeStopEtaInfo[i])
+        console.log((await routeStopEtaInfo[i].ETA).getMinutes())
+        if(isNaN((await routeStopEtaInfo[i].ETA).getMinutes())){
+            routeStopEtaInfo[i] = routeStopEtaInfoKMB[i]
+            console.log(i)
         }
         let stopText = String(await routeStopEtaInfo[i].seq + "." + await routeStopEtaInfo[i].eta_seq + ": " + await routeStopEtaInfo[i].name_tc + " - " + DateToTime(await routeStopEtaInfo[i].ETA)) + " - " + await routeStopEtaInfo[i].co + "<br>"
         console.log(stopText)
@@ -311,6 +344,8 @@ function fullscreen(){
 var secs = 0
 var curstop_json = {}
 var curstop_id
+
+var lastTimeLeft = -1;
 
 
 /**
@@ -375,7 +410,7 @@ function prepareForLoop(){
         routeStopIds = routeStopIdKMB
     }
     curstop_id = curstop_json.stop
-    console.log(curstop_json)
+    lastTimeLeft = new Date(curstop_json.ETA).getTime() - new Date().getTime()
     document.getElementById("sellist").style.display = "none"
     console.log("starting")
     document.getElementById("instr").style.display = "none"
@@ -403,9 +438,9 @@ function stopSelect(){
         })
         
     }
-    console.log((new Date(curstop_json.ETA).getTime() - milsecs))
+    
     let timeleft = (new Date(curstop_json.ETA).getTime() - milsecs)
-    if(timeleft<0){
+    if(timeleft<0 || (timeleft-lastTimeLeft)>=240000){
         let pmise = getStopEtaJSON(com,routeStopIds[routeStopIds.indexOf(curstop_json.stop)+1],route,bound)
         pmise.then(function(value){
             curstop_json = value
@@ -514,8 +549,8 @@ async function setTxtDisplay(){
             document.getElementById("stopimg3").style.display = "none"
             document.getElementById("tc2").innerHTML = routeStopInfo[routeStopIds[routeStopIds.indexOf(curstop_json.stop)+1]][0]
             document.getElementById("en2").innerHTML = routeStopInfo[routeStopIds[routeStopIds.indexOf(curstop_json.stop)+1]][1]
-            document.getElementById("tc3").innerHTML = " "
-            document.getElementById("en3").innerHTML = " "
+            document.getElementById("tc3").innerHTML = "&nbsp"
+            document.getElementById("en3").innerHTML = "&nbsp"
         }
         else{
             document.getElementById("tc2").innerHTML = routeStopInfo[routeStopIds[routeStopIds.indexOf(curstop_json.stop)+1]][0]
