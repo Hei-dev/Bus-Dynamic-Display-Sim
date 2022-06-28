@@ -63,6 +63,7 @@ function setElementAnimation(text,id,id2,spare_id,isChinese){
             },delay*1000)
         }
 
+        console.log(delay)
         
         document.getElementById(id).style.animation = "scrolls " + duration + "s linear " +              delay + "s infinite"
         document.getElementById(id2).style.animation = "scrolls " + duration + "s linear " + String(duration/2 + delay) + "s infinite"

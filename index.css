@@ -30,8 +30,7 @@
     overflow: visible;
     white-space: nowrap;
     z-index: -1 ;
-    position: absolute;
-    top: 7.5vh;
+    position: relative;
 }
 #en1, #en1_, #en1__{
     font-size: 8vw;
@@ -39,8 +38,7 @@
     overflow: visible;
     white-space: nowrap;
     z-index: -2 ;
-    position: absolute;
-    top: 35vh;
+    position: relative;
 }
 #tc2, #tc2_, #tc2__{
     font-size: 7vw;
@@ -48,8 +46,7 @@
     overflow: hidden;
     white-space: nowrap;
     z-index: -1 ;
-    position: absolute;
-    top: 52.5vh;
+    position: relative;
 }
 #en2, #en2_, #en2__{
     font-size: 4vw;
@@ -57,8 +54,7 @@
     overflow: hidden;
     white-space: nowrap;
     z-index: -1 ;
-    position: absolute;
-    top: 67.5vh;
+    position: relative;
 }
 #tc3, #tc3_, #tc3__{
     font-size: 7vw;
@@ -66,8 +62,7 @@
     overflow: hidden;
     white-space: nowrap;
     z-index: -1 ;
-    position: absolute;
-    top: 72.5vh;
+    position: relative;
 }
 #en3, #en3_, #en3__{
     font-size: 4vw;
@@ -75,8 +70,14 @@
     overflow: hidden;
     white-space: nowrap;
     z-index: -1 ;
-    position: absolute;
-    top: 87.5vh;
+    position: relative;
+}
+
+#tc1_, #tc2_, #tc3_, #en1_, #en2_, #en3_{
+    left:-100%;
+}
+#tc1__, #tc2__, #tc3__, #en1__, #en2__, #en3__{
+    left:-200%;
 }
 
 /* LEGACY: Use scrolls/scrolls2 instead */
@@ -90,8 +91,8 @@
 }
 
 @keyframes scrolls{
-    0%{transform: translateX(100%);}
-    100%{transform: translateX(-125%);}
+    0%{transform: translateX(250%);}
+    100%{transform: translateX(-250%);}
 }
 @keyframes scrolls2{
     0%{transform: translateX(25%);}

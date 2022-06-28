@@ -376,7 +376,7 @@ function prepareForLoop(){
     document.getElementById("sellist").style.display = "none"
     console.log("starting")
     document.getElementById("instr").style.display = "none"
-    setTxtDisplay()
+    setTxtDisplay(true)
     stopSelect()
 }
 
@@ -395,7 +395,7 @@ function stopSelect(){
         pmise.then(function(value){
             curstop_json = value
             if(value!=null){
-                setTxtDisplay()
+                setTxtDisplay(true)
             }
         })
         
@@ -407,7 +407,7 @@ function stopSelect(){
         pmise.then(function(value){
             curstop_json = value
             if(value!=null){
-                setTxtDisplay()
+                setTxtDisplay(true)
                 setImgDisplay()
             }
         })
@@ -446,10 +446,10 @@ function stopSelect(){
 function switchInfo(type){
     //console.log(type)
     if(type==0){
-        setTxtDisplay()
+        setTxtDisplay(false)
     }
     else if(type==1){
-        setTxtDisplay()
+        setTxtDisplay(false)
     }
     else if(type==2){
         setDesDisplay()
@@ -477,7 +477,7 @@ function setTextSize(text,isEn){
     }
 }
 
-async function setTxtDisplay(){
+async function setTxtDisplay(willResetAnim){
     if(curstop_json!=undefined){
         //console.log(curstop_json.stop)
         //console.log(routeStopInfo)
@@ -525,7 +525,7 @@ async function setTxtDisplay(){
         }
         //setAnimationLegacy()
         
-        setAnimationText()
+        if(willResetAnim){setAnimationText()}
 
         /**/
 
