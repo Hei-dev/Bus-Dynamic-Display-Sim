@@ -65,11 +65,7 @@ var strExclude = [
     "HUNG HOM SOUTH ROAD"
 ]
 
-
-//console.log(checkCrossHarbor("100"))
-
-//document.getElementById("en1").style.animation = "txtScroll 5s linear infinite"
-//getRouteInfo(com,route,bound)
+//setElementAnimation("egvfdhwjskndfghuijskbnhgvuijknbhvg","tc1","tc1_","tc1__")
 
 function initBtn(){
     document.getElementById("routeSel").style.display = "none"
@@ -99,8 +95,9 @@ function DateToTime(datetime){
 }
 
 function checkCrossHarbor(route){
-    console.log(crossHarbourNo.indexOf(route[0]))
-    return (route.length==3 || route.length==4) && (crossHarbourNo.indexOf(route[0]) != -1)
+    //console.log(crossHarbourNo.indexOf(route[0]))
+    //return (route.length==3 || route.length==4) && (crossHarbourNo.indexOf(route[0]) != -1)
+    return false //TODO Change this
 }
 
 /**
@@ -526,82 +523,10 @@ async function setTxtDisplay(){
                 document.getElementById("stopimg3").src = "img/Stop_" + com + "_ter.png"
             }
         }
-
-        /*
-        for(let i in txtDisplay){ // TODO seperate top and bottom text && MAke it into a new function
-            if(txtDisplay[i].innerHTML.length>=8){
-                txtDisplay[i].style.animationName = "txtScroll"
-                txtDisplay[i].style.animationDuration = txtDisplay[i].innerHTML.length/1.5 + "s"
-                txtDisplay[i].style.animationTimingFunction = "linear"
-                txtDisplay[i].style.animationIterationCount = "infinite"
-            }
-            else{
-                txtDisplay[i].style.animationName = ""
-            }
-        }
-        for(let i in txtDisplayEn){ // TODO seperate top and bottom text
-            let totUpper = txtDisplayEn[i].innerHTML.length - txtDisplayEn[i].innerHTML.replace(/[A-Z]/g, '').length;
-            let totLower = txtDisplayEn[i].innerHTML.length - totUpper
-            let tot = ((totLower/2)+totUpper)
-            console.log(tot)
-            if(tot>=13){
-                txtDisplayEn[i].style.animationName = "txtScroll"
-                txtDisplayEn[i].style.animationDuration = txtDisplayEn[i].innerHTML.length/2 + "s"
-                txtDisplayEn[i].style.animationTimingFunction = "linear"
-                txtDisplayEn[i].style.animationIterationCount = "infinite"
-            }
-            else{
-                txtDisplayEn[i].style.animationName = ""
-            }
-            console.log(txtDisplayEn[0])
-        }
-        */
-        let chilen = document.getElementById("tc1").innerHTML.length
-        if(chilen>=6){
-            document.querySelector(':root').style.setProperty("--len",String((chilen*12*-1)) + "vw")
-            //console.log(String((chilen*12*-1)) + "vw")
-            console.log(getComputedStyle(document.querySelector(':root')).getPropertyValue('--len'))
-            document.getElementById("tc1").style.animationName = "txtScroll"
-            document.getElementById("tc1").style.animationDuration = document.getElementById("tc1").innerHTML.length/0.75 + "s"
-            document.getElementById("tc1").style.animationTimingFunction = "linear"
-            document.getElementById("tc1").style.animationIterationCount = "infinite"
-        }
-        else{
-            document.getElementById("tc1").style.animationName = ""
-        }
+        //setAnimationLegacy()
         
-        if(com=="KMB"){
-            let totUpper = document.getElementById("en1").innerHTML.length - document.getElementById("en1").innerHTML.replace(/[A-Z]/g, '').length;
-            let totLower = document.getElementById("en1").innerHTML.length - totUpper
-            let tot = ((totLower/2)+totUpper)
-            console.log(tot)
-            if(tot>=13){
-                document.querySelector(':root').style.setProperty("--lenen",String(tot*12*-1) + "vw")
-                document.getElementById("en1").style.animationName = "txtScrollEn"
-                document.getElementById("en1").style.animationDuration = document.getElementById("en1").innerHTML.length/2.5 + "s"
-                document.getElementById("en1").style.animationTimingFunction = "linear"
-                document.getElementById("en1").style.animationIterationCount = "infinite"
-            }
-            else{
-                document.getElementById("en1").style.animationName = ""
-            }
-        }
-        else{
-            let totSpace = document.getElementById("en1").innerHTML.length - document.getElementById("en1").innerHTML.replace(/ /g, '').length;
-            let totLetter = document.getElementById("en1").innerHTML.length - totSpace
-            let tot = ((totSpace/2)+totLetter)
-            console.log("Text total: " + tot)
-            if(tot>=13){
-                document.querySelector(':root').style.setProperty("--lenen",String(tot*8*-1) + "vw")
-                document.getElementById("en1").style.animationName = "txtScrollEn"
-                document.getElementById("en1").style.animationDuration = document.getElementById("en1").innerHTML.length/2.5 + "s"
-                document.getElementById("en1").style.animationTimingFunction = "linear"
-                document.getElementById("en1").style.animationIterationCount = "infinite"
-            }
-            else{
-                document.getElementById("en1").style.animationName = ""
-            }
-        }
+        setAnimationText()
+
         /**/
 
         
@@ -643,6 +568,60 @@ function setImgDisplay(secs, etamin, light){
         
     }
 }
+
+/**
+ * NOTE: this function will be deprecated.
+ */
+function setAnimationLegacy(){
+    let chilen = document.getElementById("tc1").innerHTML.length
+    if(chilen>=6){
+        document.querySelector(':root').style.setProperty("--len",String((chilen*12*-1)) + "vw")
+        //console.log(String((chilen*12*-1)) + "vw")
+        console.log(getComputedStyle(document.querySelector(':root')).getPropertyValue('--len'))
+        document.getElementById("tc1").style.animationName = "txtScroll"
+        document.getElementById("tc1").style.animationDuration = document.getElementById("tc1").innerHTML.length/0.75 + "s"
+        document.getElementById("tc1").style.animationTimingFunction = "linear"
+        document.getElementById("tc1").style.animationIterationCount = "infinite"
+    }
+    else{
+        document.getElementById("tc1").style.animationName = ""
+    }
+    
+    if(com=="KMB"){
+        let totUpper = document.getElementById("en1").innerHTML.length - document.getElementById("en1").innerHTML.replace(/[A-Z]/g, '').length;
+        let totLower = document.getElementById("en1").innerHTML.length - totUpper
+        let tot = ((totLower/2)+totUpper)
+        console.log(tot)
+        if(tot>=13){
+            document.querySelector(':root').style.setProperty("--lenen",String(tot*12*-1) + "vw")
+            document.getElementById("en1").style.animationName = "txtScrollEn"
+            document.getElementById("en1").style.animationDuration = document.getElementById("en1").innerHTML.length/2.5 + "s"
+            document.getElementById("en1").style.animationTimingFunction = "linear"
+            document.getElementById("en1").style.animationIterationCount = "infinite"
+        }
+        else{
+            document.getElementById("en1").style.animationName = ""
+        }
+    }
+    else{
+        let totSpace = document.getElementById("en1").innerHTML.length - document.getElementById("en1").innerHTML.replace(/ /g, '').length;
+        let totLetter = document.getElementById("en1").innerHTML.length - totSpace
+        let tot = ((totSpace/2)+totLetter)
+        console.log("Text total: " + tot)
+        if(tot>=13){
+            document.querySelector(':root').style.setProperty("--lenen",String(tot*8*-1) + "vw")
+            document.getElementById("en1").style.animationName = "txtScrollEn"
+            document.getElementById("en1").style.animationDuration = document.getElementById("en1").innerHTML.length/2.5 + "s"
+            document.getElementById("en1").style.animationTimingFunction = "linear"
+            document.getElementById("en1").style.animationIterationCount = "infinite"
+        }
+        else{
+            document.getElementById("en1").style.animationName = ""
+        }
+    }
+}
+
+
 
 function setDesDisplay(){
     document.getElementById("tc2").innerHTML = "前往"

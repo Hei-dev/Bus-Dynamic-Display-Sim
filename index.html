@@ -11,7 +11,7 @@
         <div id="routeSel">
             Note: Cross Harbour Route is not fully supported yet. Bugs are expected to occur.<br><br>
             <label for="#routeid" class="menulabel">Route ID</label><br><input id="routeid">
-            <button onclick="checkRoute(document.getElementById('routeid').value)">Check route</button>
+            <button onclick="checkRoute(document.getElementById('routeid').value)">Check route (MAY NOT BE UPDATED)</button>
             <br>Note: Special departures and routes are not tested.<br><br>
             <label for="#bound" class="menulabel">Direction</label><br>
             <select id="bound">
@@ -35,9 +35,11 @@
             </select>
             <br>If no suitable route is found for the respective company, empty list will be displayed<br><br>
             <label class="menulabel">Others</label><br>
-            <label for="#rev" >Reversed Bound? (For Cross Harbour)</label>
-            <input type="checkbox" id="rev">
-            <br>NOT RECOMMENDED. Use if the cross harbour failed to display correctly<br><br>
+            <label for="#jor" >Is route Joint-operated? (DISABLED)</label>
+            <input type="checkbox" id="jor" disabled><br>
+            <label for="#rev" >Reversed Bound? (For Jointed-operated routes) (DISABLED)</label>
+            <input type="checkbox" id="rev" disabled>
+            <br>NOT RECOMMENDED. Use if the joint-operated route failed to display correctly<br><br>
             <button onclick="initBtn()">Search</button>
         </div>
         <div id="sellist">
@@ -51,8 +53,8 @@
                 <tr style="height:50%">
                     <td><div style="z-index: 3; background-color: white;"><img  onclick="fullscreen()" id="stopimg1" src="Stop_KMB.png" class="img_top"></div></td>
                     <td ><table class="txt_top"  style="table-layout:fixed; width: 77vw;">
-                        <tr><td><div id="tc1">WELCOME</div></td></tr>
-                        <tr><td><div id="en1">WELCOME ONBOARD</div></td></tr>
+                        <tr><td><div id="tc1">歡迎</div></td><td><div id="tc1_">歡迎</div></td><td><div id="tc1__">歡迎</div></td></tr>
+                        <tr><td><div id="en1">WELCOME</div></td><td><div id="en1_">WELCOME</div></td><td><div id="en1__">WELCOME</div></td></tr>
                     </table></td>
                     <td style="font-size: 5vw; text-align: center; z-index: -1; background-color: white; font-family: Arial, Helvetica, sans-serif;" class="" id="minLeft">-<br>min</td>
                     <td style="background-color: white; width:25vw"></td> <!--Temporary fix for the edges-->
@@ -61,16 +63,16 @@
                 <tr style="height:25%">
                     <td><div style="z-index: 3; background-color: white;"><img id="stopimg2" src="Stop_CTB.png" class="img_bottom"></div></td>
                     <td><table class="txt_bottom">
-                        <tr><td id="tc2"></td></tr>
-                        <tr><td id="en2"></td></tr>
+                        <tr><td><div id="tc2"></div><div id="tc2_"></div><div id="tc2__"></div></td></tr>
+                        <tr><td><div id="en2"></div><div id="en2_"></div><div id="en2__"></div></td></tr>
                     </table></td>
                     
                 </tr>
                 <tr style="height:25%">
                     <td><div style="z-index: 3; background-color: white;"><img id="stopimg3" src="Stop_NWFB.png" class="img_bottom"></div></td>
                     <td><table class="txt_bottom">
-                        <tr><td id="tc3"></td></tr>
-                        <tr><td id="en3"></td></tr>
+                        <tr><td><div id="tc3"></div><div id="tc3_"></div><div id="tc3__"></div></td></tr>
+                        <tr><td><div id="en3"></div><div id="en3_"></div><div id="en3__"></div></td></tr>
                     </table></td>
                     
                 </tr>
@@ -78,7 +80,9 @@
         </div>
         <div id="logs">Logs<br></div>
     </body>
+    <script src="text_animation.js"></script>
     <script src="main.js" defer></script>
+    <script src="text_stay_time.js"></script>
     <script src="JSON_BUS.js"></script>
     <script src="routeCheck.js"></script>
 </html>

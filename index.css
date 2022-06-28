@@ -24,55 +24,62 @@
 .menulabel{
     font-size: 2vw;
 }
-#tc1{
+#tc1, #tc1_, #tc1__, #tc1___{
     font-size: 12vw;
     font-family: Arial, Helvetica, sans-serif;
     overflow: visible;
     white-space: nowrap;
     z-index: -1 ;
-    position: relative;
+    position: absolute;
+    top: 7.5vh;
 }
-#en1{
+#en1, #en1_, #en1__{
     font-size: 8vw;
     font-family: Arial, Helvetica, sans-serif;
     overflow: visible;
     white-space: nowrap;
     z-index: -2 ;
-    position: relative;
+    position: absolute;
+    top: 35vh;
 }
-#tc2{
+#tc2, #tc2_, #tc2__{
     font-size: 7vw;
     font-family: Arial, Helvetica, sans-serif;
     overflow: hidden;
     white-space: nowrap;
     z-index: -1 ;
-    position: relative;
+    position: absolute;
+    top: 52.5vh;
 }
-#en2{
+#en2, #en2_, #en2__{
     font-size: 4vw;
     font-family: Arial, Helvetica, sans-serif;
     overflow: hidden;
     white-space: nowrap;
     z-index: -1 ;
-    position: relative;
+    position: absolute;
+    top: 67.5vh;
 }
-#tc3{
+#tc3, #tc3_, #tc3__{
     font-size: 7vw;
     font-family: Arial, Helvetica, sans-serif;
     overflow: hidden;
     white-space: nowrap;
     z-index: -1 ;
-    position: relative;
+    position: absolute;
+    top: 72.5vh;
 }
-#en3{
+#en3, #en3_, #en3__{
     font-size: 4vw;
     font-family: Arial, Helvetica, sans-serif;
     overflow: hidden;
     white-space: nowrap;
     z-index: -1 ;
-    position: relative;
+    position: absolute;
+    top: 87.5vh;
 }
 
+/* LEGACY: Use scrolls/scrolls2 instead */
 @keyframes txtScroll {
     from { transform: translateX(100vw); }
     to { transform: translateX(var(--len)); }  /*Needs to be changed to vars()/**/
@@ -81,6 +88,16 @@
     from { transform: translateX(100vw); }
     to { transform: translateX(var(--lenen)); }  /*Needs to be changed to vars()/**/
 }
+
+@keyframes scrolls{
+    0%{transform: translateX(100%);}
+    100%{transform: translateX(-125%);}
+}
+@keyframes scrolls2{
+    0%{transform: translateX(25%);}
+    100%{transform: translateX(-250%);}
+}
+
 /*
 @keyframes txtScroll {
     from { left: 100vw; }
