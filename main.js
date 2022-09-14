@@ -2,10 +2,15 @@
     Copyrights belongs to the reapective owner
 */
 
+/**Base URL for CTB bus route*/
 const baseURL = "https://rt.data.gov.hk/v1/transport/citybus-nwfb"
+/**Base URL for KMB bus route*/
 const KMBbaseURL = "https://data.etabus.gov.hk/v1/transport/kmb"
+/**Current Route Number*/
 var route = 13
+/**Current selected bound*/
 var bound = "inbound"
+/**Current seleted bus company*/
 var com = "NWFB"
 var routeStopInfo = []
 var routeStopEtaInfo = []
@@ -15,6 +20,8 @@ var orgRouteStopIdKMB
 var logs = document.getElementById("logs")
 var instr = document.getElementById("instr")
 document.getElementById("sellist").style.display = "none"
+
+var lastMinFetch = -255
 
 const crossHarbourNo = ["1","3","6","9","N"]
 var isCrossHarbourRoute = false
@@ -27,7 +34,8 @@ for(let i=0;i<=9;i++){
     numbersArr.push(String(i))
 }
 var letterArr = "ABCDEFGHIJKLMNOPQRSTUVWXYZ".split("")
-var distName = ["尖沙咀",
+/**District names (in Chinese) that will be used to seperate street name and area name*/
+const distName = ["尖沙咀",
     "油麻地",
     "旺角",
     "深水埗",
@@ -39,7 +47,8 @@ var distName = ["尖沙咀",
     "九龍灣",
     "新蒲崗"
 ]
-var distNameEn = [
+/**District name (in English) that will be used to seperate street name and area name*/
+const distNameEn = [
     "TSIM SHA TSUI",
     "YAU MA TEI",
     "MONG KOK",
@@ -52,17 +61,19 @@ var distNameEn = [
     "KOWLOON BAY",
     "SAN PO KONG"
 ]
-var strName = "街道路里坊".split("")
-var strNameEn = [
+const strName = "街道路里坊".split("")
+const strNameEn = [
     "Street",
     "Road",
     "Avenue",
     "Lane",
     "Square"
 ]
-var strExclude = [
+const strExclude = [
     "紅磡南道",
-    "HUNG HOM SOUTH ROAD"
+    "HUNG HOM SOUTH ROAD",
+    "巴士總站",
+    "BUS TERMINUS"
 ]
 
 
@@ -176,19 +187,19 @@ function stringProcess(strname,isEn){
             for(j in strName){
                 if(checkDistrictStreet(strfin,distName[i],strName[j])){
                     strfin = strfin.substring(strfin.indexOf(distName[i])+distName[i].length,strfin.length)
-                    console.log(strname + ":" + strname.indexOf(distName[i])+distName[i].length + strfin)
+                    //console.log(strname + ":" + strname.indexOf(distName[i])+distName[i].length + strfin)
                 }
             }
         }
     }
         
-    return strfin
+    return strfin.replace("巴士總站","").replace("BUS TERMINUS","")
 }
 function checkDistrictStreet(stopname,dist,street){
     return (stopname.indexOf(dist)!= -1)
         && (stopname.indexOf(street) != -1)
         && (stopname.indexOf(dist)+dist.length!=stopname.indexOf(street)
-        && (strExclude.indexOf(stopname)==-1))
+        && (strExclude.some(_strEle => stopname.includes(_strEle))==-1))
 }
 
 /**
@@ -326,7 +337,6 @@ var curstop_id
     else{
         var urlFetch = (baseURL + "/eta/" + com + "/" + stop + "/" + route)
     }
-    console.log(urlFetch)
     let fetchRes = await fetch(urlFetch)
     var orgEta = JSON.parse(await fetchRes.text())
     let orgEtaData = await orgEta.data
@@ -362,6 +372,26 @@ var curstop_id
     
 }
 
+/**
+ * Get a list of ETA at a stop and RETURNS it
+ */
+async function getAtStopETA(com,stop){
+    if(com=="KMB"){
+        var urlFetch = KMBbaseURL + "/stop-eta/" + stop
+    }
+    else{
+        var urlFetch = ("https://rt.data.gov.hk/v1/transport/batch/stop-eta/" + com + "/" + stop)
+    }
+
+    let fetchRes = await fetch(urlFetch)
+    var orgEta = JSON.parse(await fetchRes.text())
+    let orgEtaData = await orgEta.data
+    if(orgEtaData.length==0) return null;
+    return {
+        "route" : orgEtaData.route,
+        "dest_tc" : orgEtaData.dest_tc //TODO implement KMB
+    }
+}
 
 
 function prepareForLoop(){
@@ -405,7 +435,8 @@ function stopSelect(){
     }
     console.log((new Date(curstop_json.ETA).getTime() - milsecs))
     let timeleft = (new Date(curstop_json.ETA).getTime() - milsecs)
-    if(timeleft<0){
+    lastMinFetch = -255?timeleft:lastMinFetch
+    if(timeleft<0 || (timeleft-lastMinFetch<=-5)){
         let pmise = getStopEtaJSON(com,routeStopIds[routeStopIds.indexOf(curstop_json.stop)+1],route,bound)
         pmise.then(function(value){
             curstop_json = value
@@ -415,6 +446,7 @@ function stopSelect(){
             }
         })
     }
+
 
     document.getElementById("minLeft").innerHTML = Math.ceil(timeleft/1000/60) + "<br>min"
 
