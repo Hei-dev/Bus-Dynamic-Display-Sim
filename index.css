@@ -1,6 +1,9 @@
 :root{
     --len:0vw;
-    --lenen:0vw
+    --lenen:0vw;
+    --start2:0vw;
+    --len2:0vw;
+    --lenen2:0vw;
 }
 
 .img_top{
@@ -24,14 +27,22 @@
 .menulabel{
     font-size: 2vw;
 }
-#tc1{
+#display{
+    white-space: nowrap;
+}
+#tc1, #tc1_, #tc1__, #tc1___{
     font-size: 12vw;
     font-family: Arial, Helvetica, sans-serif;
     overflow: visible;
     white-space: nowrap;
     z-index: -1 ;
     position: relative;
+    display: inline-block
 }
+
+/*
+transform: translateX(-50%);
+*/
 #en1{
     font-size: 8vw;
     font-family: Arial, Helvetica, sans-serif;
@@ -78,6 +89,15 @@
     to { transform: translateX(var(--len)); }  /*Needs to be changed to vars()/**/
 }
 @keyframes txtScrollEn {
+    from { transform: translateX(100vw); }
+    to { transform: translateX(var(--lenen)); }  /*Needs to be changed to vars()/**/
+}
+
+@keyframes txtScroll2 {
+    from { transform: translateX(var(--start2)); }
+    to { transform: translateX(var(--len2)); }  /*Needs to be changed to vars()/**/
+}
+@keyframes txtScrollEn2 {
     from { transform: translateX(100vw); }
     to { transform: translateX(var(--lenen)); }  /*Needs to be changed to vars()/**/
 }

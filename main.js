@@ -559,47 +559,18 @@ async function setTxtDisplay(){
             }
         }
 
-        /*
-        for(let i in txtDisplay){ // TODO seperate top and bottom text && MAke it into a new function
-            if(txtDisplay[i].innerHTML.length>=8){
-                txtDisplay[i].style.animationName = "txtScroll"
-                txtDisplay[i].style.animationDuration = txtDisplay[i].innerHTML.length/1.5 + "s"
-                txtDisplay[i].style.animationTimingFunction = "linear"
-                txtDisplay[i].style.animationIterationCount = "infinite"
-            }
-            else{
-                txtDisplay[i].style.animationName = ""
-            }
-        }
-        for(let i in txtDisplayEn){ // TODO seperate top and bottom text
-            let totUpper = txtDisplayEn[i].innerHTML.length - txtDisplayEn[i].innerHTML.replace(/[A-Z]/g, '').length;
-            let totLower = txtDisplayEn[i].innerHTML.length - totUpper
-            let tot = ((totLower/2)+totUpper)
-            console.log(tot)
-            if(tot>=13){
-                txtDisplayEn[i].style.animationName = "txtScroll"
-                txtDisplayEn[i].style.animationDuration = txtDisplayEn[i].innerHTML.length/2 + "s"
-                txtDisplayEn[i].style.animationTimingFunction = "linear"
-                txtDisplayEn[i].style.animationIterationCount = "infinite"
-            }
-            else{
-                txtDisplayEn[i].style.animationName = ""
-            }
-            console.log(txtDisplayEn[0])
-        }
-        */
+        //Determine Chinese text animation length
         let chilen = document.getElementById("tc1").innerHTML.length
         if(chilen>=6){
-            document.querySelector(':root').style.setProperty("--len",String((chilen*12*-1)) + "vw")
-            //console.log(String((chilen*12*-1)) + "vw")
-            console.log(getComputedStyle(document.querySelector(':root')).getPropertyValue('--len'))
-            document.getElementById("tc1").style.animationName = "txtScroll"
-            document.getElementById("tc1").style.animationDuration = document.getElementById("tc1").innerHTML.length/0.75 + "s"
-            document.getElementById("tc1").style.animationTimingFunction = "linear"
-            document.getElementById("tc1").style.animationIterationCount = "infinite"
+            //document.getElementById("tc1_").style.transform = "translateX(-100vw);"
+            document.getElementById("tc1_").innerHTML = document.getElementById("tc1").innerHTML
+            animate("tc1","txtScroll",chilen,"--len",String((chilen*12*-1)) + "vw",0)
+            document.querySelector(':root').style.setProperty("--start2",chilen/12+"vw")
+            animate("tc1_","txtScroll2",chilen,"--len2",String((chilen*12*-1)*2) + "vw",chilen/2)
         }
         else{
             document.getElementById("tc1").style.animationName = ""
+            document.getElementById("tc1_").style.animationName = ""
         }
         
         if(com=="KMB"){
