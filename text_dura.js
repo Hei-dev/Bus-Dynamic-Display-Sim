@@ -6,6 +6,11 @@ const Cfull = "ABCDEFGHKLMNOPQRSTUVXYZ".split("")
 const Chalf = "IJ".toUpperCase().split("")
 const CfullHalf = ["W"]
 
+var scrollInterval
+var scrollIntervalen
+var isAlreadyLooping = false;
+var isAlreadyLoopingen = false;
+
 function getDuration(str,multiplyer){
     var duration = 0
     for(ichar of str){
@@ -39,4 +44,66 @@ function animate(ele,aName,aDura,aWidVarName,aWid,aDelay) {
     document.getElementById(ele).style.animationTimingFunction = "linear"
     document.getElementById(ele).style.animationIterationCount = "infinite"
     document.getElementById(ele).style.animationDelay = aDelay + "s"
+}
+
+function animate_API_CHI(txtLen){
+    //console.log("vfatgyeushzdi")
+    if(!isAlreadyLooping){
+        isAlreadyLooping = true
+        scrollInterval = setInterval(function(){
+                document.getElementById("tc1").animate(
+                    [{ transform: "translateX(" + (txtLen+1) + "em)" }, { transform: "translateX(-" + (txtLen*1.5) + "em)" }], //2
+                    {
+                        duration: txtLen*1000,
+                        easing: "linear",
+                    }
+                )
+                setTimeout(function(){
+                    document.getElementById("tc1_").animate(
+                        [{ transform: "translateX(" + (1) + "em)" }, { transform: "translateX(-" + (txtLen*2.5) + "em)" }], //3
+                        {
+                            duration: txtLen*1000,
+                            easing: "linear",
+                        }
+                    )
+                },txtLen*1000/2)
+                //console.log("dsbhufehudzfvkhilu")
+        },txtLen*1000)
+    }
+}
+function animate_API_ENG(txtLen){
+    if(!isAlreadyLoopingen){
+        isAlreadyLoopingen = true
+        scrollIntervalen = setInterval(function(){
+                document.getElementById("en1").animate(
+                    [{ transform: "translateX(" + (txtLen+1) + "em)" }, { transform: "translateX(-" + (txtLen*1.5) + "em)" }], //2
+                    {
+                        duration: txtLen*1000,
+                        easing: "linear",
+                    }
+                )
+                setTimeout(function(){
+                    document.getElementById("en1_").animate(
+                        [{ transform: "translateX(" + (1) + "em)" }, { transform: "translateX(-" + (txtLen*2.5) + "em)" }], //3
+                        {
+                            duration: txtLen*1000,
+                            easing: "linear",
+                        }
+                    )
+                },txtLen*1000/2)
+        },txtLen*1000)
+    }
+}
+
+function animante_API_stop_CHI(){
+    clearInterval(scrollInterval)
+    isAlreadyLooping = false;
+}
+function animante_API_stop_ENG(){
+    clearInterval(scrollIntervalen)
+    isAlreadyLoopingen = false;
+}
+
+document.getElementById("tc1").onanimationiteration = function(){
+    console.log("sbfhjsbefdbhjsdfb")
 }
