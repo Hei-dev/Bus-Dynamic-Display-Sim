@@ -29,6 +29,8 @@ var routeStopInfoKMB = []
 var routeStopIdKMB = []
 var curseqKMB = ""
 
+var curStopName = ["",""]
+
 var numbersArr = [];
 for(let i=0;i<=9;i++){
     numbersArr.push(String(i))
@@ -560,69 +562,29 @@ async function setTxtDisplay(){
 
         //Determine Chinese text animation length
         let chilen = document.getElementById("tc1").innerHTML.length
+        curStopName[0] = document.getElementById("tc1").innerHTML
         if(chilen>=6){
             document.getElementById("tc1_").innerHTML = document.getElementById("tc1").innerHTML
             animate_API_CHI(chilen)
         }
         else{
-            document.getElementById("tc1").style.animationName = ""
-            document.getElementById("tc1_").style.animationName = ""
             document.getElementById("tc1_").innerHTML = ""
-            animante_API_stop()
+            animante_API_stop_CHI()
+            
         }
-        /*
-        if(com=="KMB"){
-            let totUpper = document.getElementById("en1").innerHTML.length - document.getElementById("en1").innerHTML.replace(/[A-Z]/g, '').length;
-            let totLower = document.getElementById("en1").innerHTML.length - totUpper
-            let tot = ((totLower/2)+totUpper)
-            console.log(tot)
-            if(tot>=13){
-                /*
-                document.querySelector(':root').style.setProperty("--lenen",String(tot*12*-1) + "vw")
-                document.getElementById("en1").style.animationName = "txtScrollEn"
-                document.getElementById("en1").style.animationDuration = document.getElementById("en1").innerHTML.length/2.5 + "s"
-                document.getElementById("en1").style.animationTimingFunction = "linear"
-                document.getElementById("en1").style.animationIterationCount = "infinite"
-                
-               animate_API_ENG(getDuration(document.getElementById("en1").innerHTML,1))
-            }
-            else{
-                document.getElementById("en1").style.animationName = ""
-                animante_API_stop()
-            }
-        }
-        else{
-            let totSpace = document.getElementById("en1").innerHTML.length - document.getElementById("en1").innerHTML.replace(/ /g, '').length;
-            let totLetter = document.getElementById("en1").innerHTML.length - totSpace
-            let tot = ((totSpace/2)+totLetter)
-            //let tot = 
-            console.log("Text total: " + tot)
-            if(tot>=13){
-                /*
-                document.querySelector(':root').style.setProperty("--lenen",String(tot*8*-1) + "vw")
-                document.getElementById("en1").style.animationName = "txtScrollEn"
-                //document.getElementById("en1").style.animationDuration = document.getElementById("en1").innerHTML.length/2.5 + "s"
-                document.getElementById("en1").style.animationDuration = getDuration(document.getElementById("en1").innerHTML,1) + "s"
-                document.getElementById("en1").style.animationTimingFunction = "linear"
-                document.getElementById("en1").style.animationIterationCount = "infinite"
-                
-
-            }
-            else{
-                document.getElementById("en1").style.animationName = ""
-            }
-        }
-        /**/
+        
         const eng_dura = getDuration(document.getElementById("en1").innerHTML,1)
-        if(eng_dura>=10){
+        curStopName[1] = document.getElementById("en1").innerHTML
+        console.log("ENG_DURA " + eng_dura)
+        if(eng_dura>=13){
             document.getElementById("en1_").innerHTML = document.getElementById("en1").innerHTML
-            animate_API_ENG(eng_dura)
+            animate_API_ENG(document.getElementById("en1").innerHTML.length,2)
+            //animate_API_ENG(eng_dura)
         }
         else{
             document.getElementById("en1_").innerHTML = ""
-            animante_API_stop()
+            animante_API_stop_ENG()
         }
-        //console.log(txtDisplayEn[0])
     }
     
 }

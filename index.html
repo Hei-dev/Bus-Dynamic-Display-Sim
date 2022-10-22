@@ -9,7 +9,7 @@
         <h3 id="debug"></h3>
         <h1 id="instr" style="text-align: center; background-color: lightgrey;">Select Your Route</h1>
         <div id="routeSel">
-            Note: Cross Harbour Route is not fully supported yet. Bugs are expected to occur.<br><br>
+            Note: New experimental scrolling animation is implemented. Bugs may occur for scrolling text.<br><br>
             <label for="#routeid" class="menulabel">Route ID</label><br><input id="routeid">
             <button onclick="checkRoute(document.getElementById('routeid').value)">Check route</button>
             <br>Note: Special departures and routes are not tested.<br><br>
@@ -35,8 +35,8 @@
             </select>
             <br>If no suitable route is found for the respective company, empty list will be displayed<br><br>
             <label class="menulabel">Others</label><br>
-            <label for="#rev" >Reversed Bound? (For Cross Harbour)</label>
-            <input type="checkbox" id="rev">
+            <label for="#rev" >Reversed Bound? (For Joint-Operated) (DISABLED)</label>
+            <input type="checkbox" id="rev" disabled>
             <br>NOT RECOMMENDED. Use if the cross harbour failed to display correctly<br><br>
             <button onclick="initBtn()">Search</button>
         </div>
@@ -52,7 +52,7 @@
                     <td><div style="z-index: 3; background-color: white;"><img  onclick="fullscreen()" id="stopimg1" src="Stop_KMB.png" class="img_top"></div></td>
                     <td ><table class="txt_top"  style="table-layout:fixed; width: 77vw;">
                         <tr><td><div id="tc1">WELCOME</div><div id="tc1_"></div><div id="tc1__"></div><br></tr>
-                        <tr><td><div id="en1">WELCOME ONBOARD</div><div id="en1_"></div></td></tr>
+                        <tr><td><div id="en1">WELCOME</div><div id="en1_"></div></td></tr>
                     </table></td>
                     <td style="font-size: 5vw; text-align: center; z-index: -1; background-color: white; font-family: Arial, Helvetica, sans-serif;" class="" id="minLeft">-<br>min</td>
                     <td style="background-color: white; width:25vw"></td> <!--Temporary fix for the edges-->
